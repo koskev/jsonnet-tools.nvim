@@ -1,5 +1,6 @@
 JsonnetPreview = {
 	group_id = nil,
+	client = nil,
 	preview_window = {
 		win = 0,
 		buf = 0,
@@ -19,10 +20,13 @@ function JsonnetPreview:update()
 			vim.api.nvim_buf_set_lines(self.preview_window.buf, 0, -1, false, vim.split(err.message, '\n'))
 		end
 	end
-	vim.lsp.get_client_by_id(1):exec_cmd(
-		{ title = "Evaluate file", command = "jsonnet.evalFile", arguments = { vim.fn.expand('%:p') } },
-		{ bufnr = self.edit_window.buf },
-		handler)
+	local client = self.client
+	if client ~= nil then
+		client:exec_cmd(
+			{ title = "Evaluate file", command = "jsonnet.evalFile", arguments = { vim.fn.expand('%:p') } },
+			{ bufnr = self.edit_window.buf },
+			handler)
+	end
 end
 
 function JsonnetPreview:unload()
@@ -76,8 +80,11 @@ function JsonnetPreview:setup_buffer_events()
 	})
 end
 
-function JsonnetPreview:toggle()
+function JsonnetPreview:toggle(ls_name)
 	if self.group_id == nil then
+		local clients = vim.lsp.get_clients({ name = ls_name })
+		-- TODO: error handling
+		self.client = clients[1]
 		self.edit_window.buf = vim.api.nvim_get_current_buf()
 		self.edit_window.win = vim.api.nvim_get_current_win()
 		vim.cmd('set splitright')
