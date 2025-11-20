@@ -82,9 +82,7 @@ end
 
 function JsonnetPreview:toggle(ls_name)
 	if self.group_id == nil then
-		local clients = vim.lsp.get_clients({ name = ls_name })
-		-- TODO: error handling
-		self.client = clients[1]
+		self.client = require("jsonnet-tools.client_helper").get_client(ls_name)
 		self.edit_window.buf = vim.api.nvim_get_current_buf()
 		self.edit_window.win = vim.api.nvim_get_current_win()
 		vim.cmd('set splitright')

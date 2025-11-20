@@ -11,7 +11,8 @@ function M.setup(opts)
 	end, {})
 	if config.debugger.enabled then
 		local debugger = require("jsonnet-tools.jsonnet_debugger")
-		debugger:setup(config.debugger.binary, config.debugger.debugger_args)
+		debugger:setup(config.debugger.binary, config.debugger.debugger_args, config.debugger.jpaths,
+			config.language_server_name)
 	end
 end
 

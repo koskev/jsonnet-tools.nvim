@@ -23,9 +23,9 @@ end
 
 
 
-function JsonnetDebugger:setup(binary, args, jpaths)
-	local extcode = getExtcodeFromFiles();
+function JsonnetDebugger:setup(binary, args, jpaths, ls_name)
 	local dap = require("dap")
+	local helper = require("jsonnet-tools.client_helper")
 	dap.adapters.jsonnet = {
 		type = "executable",
 		command = binary,
@@ -38,9 +38,16 @@ function JsonnetDebugger:setup(binary, args, jpaths)
 			name = "Debug Jsonnet",
 
 			program = "${file}",
-			extcode = extcode,
+			extcode = function()
+				return helper.get_config_merge(ls_name, "extcode", {})
+			end,
+			extvars = function()
+				return helper.get_config_merge(ls_name, "extvars", {})
+			end,
 			-- TODO: get paths from lsp?
-			jpaths = jpaths
+			jpaths = function()
+				return helper.get_config_merge(ls_name, "jpaths", jpaths)
+			end
 		},
 	}
 end
