@@ -12,6 +12,7 @@ lazy.nvim
 ```lua
 {
 	"koskev/jsonnet-tools.nvim",
+	ependencies = { 'mfussenegger/nvim-dap' },
 	opts = {},
 },
 ```
