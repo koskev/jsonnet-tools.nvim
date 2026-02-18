@@ -6,9 +6,8 @@ JsonnetConfig = {
 
 	debugger = {
 		enabled = true,
-		binary = "jsonnet-debugger",
-		debugger_args = { "--dap", "-s" },
-		jpaths = {}
+		binary = "grustonnet-debugger",
+		debugger_args = {},
 	}
 
 }
