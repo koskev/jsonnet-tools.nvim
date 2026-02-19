@@ -15,6 +15,7 @@ function M.get_config(client, name)
 	}
 	local val, err = client:request_sync("workspace/executeCommand", params)
 	if err then
+		vim.notify("Unable to get " .. name .. " got error " .. tostring(err), vim.log.levels.WARN)
 		return nil
 	end
 	return val.result

@@ -1,6 +1,6 @@
 JsonnetDebugger = {}
 
-function JsonnetDebugger:setup(binary, args, jpaths, ls_name)
+function JsonnetDebugger:setup(binary, args, jpaths, extcode, extvars, ls_name)
 	local dap = require("dap")
 	local helper = require("jsonnet-tools.client_helper")
 	dap.adapters.jsonnet = {
@@ -16,10 +16,10 @@ function JsonnetDebugger:setup(binary, args, jpaths, ls_name)
 
 			program = "${file}",
 			extcode = function()
-				return helper.get_config_merge(ls_name, "extcode", {})
+				return helper.get_config_merge(ls_name, "extcode", extcode)
 			end,
 			extvars = function()
-				return helper.get_config_merge(ls_name, "extvars", {})
+				return helper.get_config_merge(ls_name, "extvars", extvars)
 			end,
 			jpaths = function()
 				return helper.get_config_merge(ls_name, "jpaths", jpaths)

@@ -8,6 +8,9 @@ JsonnetConfig = {
 		enabled = true,
 		binary = "grustonnet-debugger",
 		debugger_args = {},
+		jpaths = {},
+		extcode = {},
+		extvars = {},
 	}
 
 }
